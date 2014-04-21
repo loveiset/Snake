@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Assets.Scripts;
 using System.Collections.Generic;
 
 public class SnakeBody : MonoBehaviour {
     public List<Snake> snakeBody;
     public Snake food;
     public Snake food2;
+    public Snake food3;
     public int snakeDirection = 0;
     public float moveRate = 1;
 
@@ -20,15 +20,21 @@ public class SnakeBody : MonoBehaviour {
     public void AddBody(Snake food)
     {
         this.snakeBody.Insert(0, food);
+        this.snakeBody.Insert(1, food2);
+        this.snakeBody.Insert(2, food3);
     }
 
     public void Move(int direction)
     {
         int direct = direction;
-        foreach (Snake snake in snakeBody)
+        int directBack=0;
+        for(int i=0;i<snakeBody.Count;i++)
         {
-            snake.Move(direct);
-            direct = snake.directionToMove;
+            Debug.Log(i);
+            directBack = snakeBody[i].directionToMove;
+            snakeBody[i].SetDirection(direct);
+            snakeBody[i].Move();
+            direct = directBack;
         }
     }
 	
@@ -38,10 +44,10 @@ public class SnakeBody : MonoBehaviour {
         moveRate -= Time.deltaTime;
         if (moveRate <= 0)
         {
-            moveRate = 0.1f;
+            moveRate = 0.12f;
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (snakeDirection == (int)Direction.DIRECTION.UP)
+                if (snakeDirection == (int)Direction.DIRECTION.DOWN)
                 {
                     return;
                 }
@@ -51,7 +57,7 @@ public class SnakeBody : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                if (snakeDirection == (int)Direction.DIRECTION.DOWN)
+                if (snakeDirection == (int)Direction.DIRECTION.UP)
                 {
                     return;
                 }
@@ -61,7 +67,7 @@ public class SnakeBody : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                if (snakeDirection == (int)Direction.DIRECTION.LEFT)
+                if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
                 {
                     return;
                 }
@@ -71,7 +77,7 @@ public class SnakeBody : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
+                if (snakeDirection == (int)Direction.DIRECTION.LEFT)
                 {
                     return;
                 }
