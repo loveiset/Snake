@@ -15,7 +15,6 @@ public class SnakeBody : MonoBehaviour {
     {
         Instance = this;
     }
-	// Use this for initialization
 
 	void Start () 
     {
@@ -31,7 +30,8 @@ public class SnakeBody : MonoBehaviour {
 
     public void AddSnake()
     {
-        Vector3 position = m_food.transform.position;
+        Vector3 position = m_food.m_transform.position;
+        Debug.Log(position.x);
         Transform snakeT = (Transform)Instantiate(snake.transform, position, Quaternion.identity);
         Snake snakeL = snakeT.gameObject.GetComponent<Snake>();
         AddBody(snakeL);

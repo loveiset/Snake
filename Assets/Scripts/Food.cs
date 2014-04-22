@@ -6,6 +6,7 @@ public class Food : MonoBehaviour {
     public float posZ = 0;
     public Vector3 position;
     public Transform m_transform;
+    public Transform snake;
 
     void Start()
     {
@@ -16,9 +17,11 @@ public class Food : MonoBehaviour {
     {
         if (other.tag.CompareTo("Snake") == 0)
         {
-            SnakeBody snakeBody = other.GetComponent<SnakeBody>();
-            snakeBody.AddSnake();
-            Destroy(this);
+            Vector3 position = this.m_transform.position;
+            GameObject snakeT = Instantiate(snake.transform, position, Quaternion.identity);
+            snakeT.directionToMove = SnakeBody.Instance.snakeBody[0].directionToMove;
+            SnakeBody.Instance.AddBody(snakeT);
+            Destroy(this.gameObject);
         }
     }
 
@@ -33,16 +36,16 @@ public class Food : MonoBehaviour {
     {
         float posX = 0;
         float posZ = 0;
-        do { posX = (float)Random.Range(-5, 5); }
+        do { posX = (float)Random.Range(-3, 3); }
         while (SnakeBody.Instance.bodyX.Contains(posX));
         {
-            posX=(float)Random.Range(-5,5);
+            posX=(float)Random.Range(-3,3);
         }
 
-        do { posZ = (float)Random.Range(-5, 5); } 
+        do { posZ = (float)Random.Range(-3, 3); } 
         while (SnakeBody.Instance.bodyZ.Contains(posZ));
         {
-            posZ = (float)Random.Range(5, 5);
+            posZ = (float)Random.Range(-3, 3);
         }
 
         this.posX = posX;
