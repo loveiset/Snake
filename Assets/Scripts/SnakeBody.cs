@@ -3,25 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SnakeBody : MonoBehaviour {
+    public Food m_food;
+    public static SnakeBody Instance;
     public List<Snake> snakeBody;
-    public Snake food;
-    public Snake food2;
-    public Snake food3;
+    public List<float> bodyX;
+    public List<float> bodyZ;
+    public Snake snake;
     public int snakeDirection = 0;
-    public float moveRate = 1;
 
-
+    void Awake()
+    {
+        Instance = this;
+    }
 	// Use this for initialization
+
 	void Start () 
     {
-        AddBody(food);
+        m_food.CreateFood();
+        AddBody(snake);
 	}
 
-    public void AddBody(Snake food)
+    public void AddBody(Snake snake)
     {
-        this.snakeBody.Insert(0, food);
-        this.snakeBody.Insert(1, food2);
-        this.snakeBody.Insert(2, food3);
+        Debug.Log("eat");
+        this.snakeBody.Insert(0, snake);
+    }
+
+    public void AddSnake()
+    {
+        Vector3 position = m_food.transform.position;
+        Transform snakeT = (Transform)Instantiate(snake.transform, position, Quaternion.identity);
+        Snake snakeL = snakeT.gameObject.GetComponent<Snake>();
+        AddBody(snakeL);
     }
 
     public void Move(int direction)
@@ -30,63 +43,59 @@ public class SnakeBody : MonoBehaviour {
         int directBack=0;
         for(int i=0;i<snakeBody.Count;i++)
         {
-            Debug.Log(i);
             directBack = snakeBody[i].directionToMove;
             snakeBody[i].SetDirection(direct);
             snakeBody[i].Move();
+
             direct = directBack;
         }
     }
 	
 	// Update is called once per frame
-	void Update () 
+    void Update()
     {
-        moveRate -= Time.deltaTime;
-        if (moveRate <= 0)
+        if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            moveRate = 0.12f;
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (snakeDirection == (int)Direction.DIRECTION.DOWN)
             {
-                if (snakeDirection == (int)Direction.DIRECTION.DOWN)
-                {
-                    return;
-                }
-                this.snakeDirection = (int)Direction.DIRECTION.UP;
-                Move(snakeDirection);
+                return;
             }
-
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                if (snakeDirection == (int)Direction.DIRECTION.UP)
-                {
-                    return;
-                }
-                this.snakeDirection = (int)Direction.DIRECTION.DOWN;
-                Move(snakeDirection);
-            }
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
-                {
-                    return;
-                }
-                this.snakeDirection = (int)Direction.DIRECTION.LEFT;
-                Move(snakeDirection);
-            }
-
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                if (snakeDirection == (int)Direction.DIRECTION.LEFT)
-                {
-                    return;
-                }
-                this.snakeDirection = (int)Direction.DIRECTION.RIGHT;
-                Move(snakeDirection);
-            }
-
-            //Move(snakeDirection);
+            this.snakeDirection = (int)Direction.DIRECTION.UP;
+            Move(snakeDirection);
         }
-	
-	}
+
+        if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            if (snakeDirection == (int)Direction.DIRECTION.UP)
+            {
+                return;
+            }
+            this.snakeDirection = (int)Direction.DIRECTION.DOWN;
+            Move(snakeDirection);
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
+            {
+                return;
+            }
+            this.snakeDirection = (int)Direction.DIRECTION.LEFT;
+            Move(snakeDirection);
+        }
+
+        if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            if (snakeDirection == (int)Direction.DIRECTION.LEFT)
+            {
+                return;
+            }
+            this.snakeDirection = (int)Direction.DIRECTION.RIGHT;
+            Move(snakeDirection);
+        }
+
+        //Move(snakeDirection);
+
+
+    }
 }

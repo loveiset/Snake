@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Direction.cs" />
+     <Compile Include="Assets\Scripts\Food.cs" />
      <Compile Include="Assets\Scripts\Snake.cs" />
      <Compile Include="Assets\Scripts\SnakeBody.cs" />
   </ItemGroup>
