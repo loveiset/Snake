@@ -8,7 +8,6 @@ public class Snake : MonoBehaviour {
     public int directionToMove = 0;
     public Food food;
 
-	// Use this for initialization
 	void Start () 
     {
         m_transform = this.transform;
@@ -19,18 +18,18 @@ public class Snake : MonoBehaviour {
         this.directionToMove = direction;
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag.CompareTo("Snake") == 0)
-        {
-            Debug.Log("enter");
-            this.directionToMove = SnakeBody.Instance.snakeBody[0].directionToMove;
-            this.Move();
-            SnakeBody.Instance.AddBody(this);
-        }
-    }
+    //public void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.tag.CompareTo("Snake") == 0)
+    //    {
+    //        Debug.Log("enter");
+    //        this.directionToMove = SnakeBody.Instance.snakeBody[0].directionToMove;
+    //        this.Move();
+    //        SnakeBody.Instance.AddBody(this);
+    //    }
+    //}
 
-
+    //移动单个snake
     public void Move()
     {
         if (directionToMove == (int)Direction.DIRECTION.UP)
