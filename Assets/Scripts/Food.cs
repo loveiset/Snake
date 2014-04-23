@@ -18,14 +18,16 @@ public class Food : MonoBehaviour {
     public void AddSnake()
     {
         Vector3 position = this.m_transform.position;
-        Debug.Log(position);
         Debug.Log(this.m_transform.position);
         Transform snakeT = (Transform)Instantiate(snake.transform, position, Quaternion.identity);
         Snake snakeL = snakeT.GetComponent<Snake>();
-        snakeL.directionToMove = SnakeBody.Instance.snakeBody[0].directionToMove;
+        snakeL.directionToMove = SnakeBody.Instance.snakeDirection;
+        snakeL.posX = position.x;
+        snakeL.posZ = position.z;
         SnakeBody.Instance.AddBody(snakeL);
         //Destroy(this.gameObject); //这里的报错
         DestroyImmediate(food, true);
+        Debug.Log("here");
         this.CreateFood();
     }
 
@@ -43,25 +45,25 @@ public class Food : MonoBehaviour {
     {
         Snake head = SnakeBody.Instance.snakeBody[0];
         if ((int)(this.posX - head.transform.position.x) == 1 
-            && head.directionToMove == (int)Direction.DIRECTION.RIGHT
+            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.RIGHT
             && (int)this.posZ == head.transform.position.z)
         {
             SnakeBody.Instance.isEat = true;
         }
-        else if ((int)(this.posX - head.transform.position.x) == -1 
-            && head.directionToMove == (int)Direction.DIRECTION.LEFT
+        else if ((int)(this.posX - head.transform.position.x) == -1
+            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.LEFT
             && (int)this.posZ == head.transform.position.z)
         {
             SnakeBody.Instance.isEat = true;
         }
-        else if ((int)(this.posZ - head.transform.position.z) == 1 
-            && head.directionToMove == (int)Direction.DIRECTION.UP
+        else if ((int)(this.posZ - head.transform.position.z) == 1
+            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.UP
             && (int)this.posX == head.transform.position.x)
         {
             SnakeBody.Instance.isEat = true;
         }
-        else if ((int)(this.posZ - head.transform.position.z) == -1 
-            && head.directionToMove == (int)Direction.DIRECTION.DOWN
+        else if ((int)(this.posZ - head.transform.position.z) == -1
+            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.DOWN
             && (int)this.posX == head.transform.position.x)
         {
             SnakeBody.Instance.isEat = true;
@@ -80,31 +82,29 @@ public class Food : MonoBehaviour {
         Transform foodT = (Transform)Instantiate(m_transform, this.position, Quaternion.identity);
         this.food = foodT.GetComponent<Food>().gameObject;
         m_transform.position = position;
-        Debug.Log(this.m_transform.position);
         //打印出来的位置和this.position的位置不一致
     }
 
     //得到随机位置生成food
     public void FindPlace()
     {
-        int posX = 0;
-        int posZ = 0;
-        do { posX = Random.Range(-3, 3); }
-        while (SnakeBody.Instance.bodyX.Contains(posX));
+        //SnakeBody.Instance.ChangePosition();
+        int posXL = 0;
+        int posZL = 0;
+        do { posXL = Random.Range(-1, 1); }
+        while (SnakeBody.Instance.bodyX.Contains(posXL));
         {
-            posX = Random.Range(-3,3);
+            posXL = Random.Range(-1, 1);
         }
 
-        do { posZ = Random.Range(-3, 3); } 
-        while (SnakeBody.Instance.bodyZ.Contains(posZ));
+        do { posZL = Random.Range(-1, 1); } 
+        while (SnakeBody.Instance.bodyZ.Contains(posZL));
         {
-            posZ = Random.Range(-3, 3);
+            posZL = Random.Range(-2, 2);
         }
-        Debug.Log("x" + posX);
-        Debug.Log("Y" + posZ);
 
-        this.posX = (float)posX;
-        this.posZ = (float)posZ;
+        this.posX = (float)posXL;
+        this.posZ = (float)posZL;
     }
 
     public void Update()

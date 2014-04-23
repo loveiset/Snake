@@ -6,8 +6,8 @@ public class SnakeBody : MonoBehaviour {
     public Food m_food;
     public static SnakeBody Instance;
     public List<Snake> snakeBody;
-    public List<float> bodyX;
-    public List<float> bodyZ;
+    public List<int> bodyX;
+    public List<int> bodyZ;
     public Snake snake;
     public int snakeDirection = 0;
     float m_moveRate = 0;
@@ -39,6 +39,18 @@ public class SnakeBody : MonoBehaviour {
     //    Snake snakeL = snakeT.gameObject.GetComponent<Snake>();
     //    AddBody(snakeL);
     //}
+
+    public void ChangePosition()
+    {
+        bodyX.Clear();
+        bodyZ.Clear();
+        for (int i = 0; i < snakeBody.Count; i++)
+        {
+            bodyX.Add((int)snakeBody[i].posX);
+            bodyZ.Add((int)snakeBody[i].posZ);
+        }
+    }
+    
 
     //移动所有的snake,循环调用snake的调用函数
     public void Move(int direction)
@@ -102,9 +114,11 @@ public class SnakeBody : MonoBehaviour {
         if (m_moveRate <= 0)
         {
             m_moveRate = 1.0f;
+            m_food.CheckFood();
             if (this.isEat)
             {
                 m_food.AddSnake();
+                Move(snakeDirection);
             }
             else
             {

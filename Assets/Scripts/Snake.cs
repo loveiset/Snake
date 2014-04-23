@@ -18,16 +18,13 @@ public class Snake : MonoBehaviour {
         this.directionToMove = direction;
     }
 
-    //public void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag.CompareTo("Snake") == 0)
-    //    {
-    //        Debug.Log("enter");
-    //        this.directionToMove = SnakeBody.Instance.snakeBody[0].directionToMove;
-    //        this.Move();
-    //        SnakeBody.Instance.AddBody(this);
-    //    }
-    //}
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.CompareTo("Snake") == 0)
+        {
+            Debug.Log("die");
+        }
+    }
 
     //移动单个snake
     public void Move()
@@ -35,21 +32,25 @@ public class Snake : MonoBehaviour {
         if (directionToMove == (int)Direction.DIRECTION.UP)
         {
             m_transform.Translate(new Vector3(0, 0, 1));
+            this.posX += 1;
         }
 
         if (directionToMove == (int)Direction.DIRECTION.DOWN)
         {
             m_transform.Translate(new Vector3(0, 0, -1));
+            this.posX -= 1;
         }
 
         if (directionToMove == (int)Direction.DIRECTION.LEFT)
         {
             m_transform.Translate(new Vector3(-1, 0, 0));
+            this.posZ -= 1;
         }
 
         if (directionToMove == (int)Direction.DIRECTION.RIGHT)
         {
             m_transform.Translate(new Vector3(+1, 0, 0));
+            this.posZ += 1;
         }
     }
 }
