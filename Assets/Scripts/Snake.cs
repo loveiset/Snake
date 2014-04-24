@@ -3,10 +3,13 @@ using System.Collections;
 
 public class Snake : MonoBehaviour {
     public Transform m_transform;
+    
     public float posX = 0;
     public float posZ = 0;
+    
     public int directionToMove = 0;
-    public Food food;
+
+    public const float snakeSize = 0.5f;
 
 	void Start () 
     {
@@ -31,26 +34,26 @@ public class Snake : MonoBehaviour {
     {
         if (directionToMove == (int)Direction.DIRECTION.UP)
         {
-            m_transform.Translate(new Vector3(0, 0, 1));
-            this.posX += 1;
+            m_transform.Translate(new Vector3(0, 0, snakeSize));
+            this.posX += snakeSize;
         }
 
         if (directionToMove == (int)Direction.DIRECTION.DOWN)
         {
-            m_transform.Translate(new Vector3(0, 0, -1));
-            this.posX -= 1;
+            m_transform.Translate(new Vector3(0, 0, -snakeSize));
+            this.posX -= snakeSize;
         }
 
         if (directionToMove == (int)Direction.DIRECTION.LEFT)
         {
-            m_transform.Translate(new Vector3(-1, 0, 0));
-            this.posZ -= 1;
+            m_transform.Translate(new Vector3(-snakeSize, 0, 0));
+            this.posZ -= snakeSize;
         }
 
         if (directionToMove == (int)Direction.DIRECTION.RIGHT)
         {
-            m_transform.Translate(new Vector3(+1, 0, 0));
-            this.posZ += 1;
+            m_transform.Translate(new Vector3(+snakeSize, 0, 0));
+            this.posZ += snakeSize;
         }
     }
 }

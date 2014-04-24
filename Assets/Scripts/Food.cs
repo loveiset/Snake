@@ -25,7 +25,6 @@ public class Food : MonoBehaviour {
         snakeL.posX = position.x;
         snakeL.posZ = position.z;
         SnakeBody.Instance.AddBody(snakeL);
-        //Destroy(this.gameObject); //这里的报错
         DestroyImmediate(food, true);
         Debug.Log("here");
         this.CreateFood();
@@ -44,27 +43,27 @@ public class Food : MonoBehaviour {
     public void CheckFood()
     {
         Snake head = SnakeBody.Instance.snakeBody[0];
-        if ((int)(this.posX - head.transform.position.x) == 1 
+        if (this.posX - head.transform.position.x == Snake.snakeSize
             && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.RIGHT
-            && (int)this.posZ == head.transform.position.z)
+            && this.posZ == head.transform.position.z)
         {
             SnakeBody.Instance.isEat = true;
         }
-        else if ((int)(this.posX - head.transform.position.x) == -1
+        else if (head.transform.position.x - this.posX == Snake.snakeSize
             && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.LEFT
-            && (int)this.posZ == head.transform.position.z)
+            && this.posZ == head.transform.position.z)
         {
             SnakeBody.Instance.isEat = true;
         }
-        else if ((int)(this.posZ - head.transform.position.z) == 1
+        else if (this.posZ - head.transform.position.z == Snake.snakeSize
             && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.UP
-            && (int)this.posX == head.transform.position.x)
+            && this.posX == head.transform.position.x)
         {
             SnakeBody.Instance.isEat = true;
         }
-        else if ((int)(this.posZ - head.transform.position.z) == -1
+        else if (head.transform.position.z - this.posZ  == Snake.snakeSize
             && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.DOWN
-            && (int)this.posX == head.transform.position.x)
+            && this.posX == head.transform.position.x)
         {
             SnakeBody.Instance.isEat = true;
         }
@@ -100,11 +99,11 @@ public class Food : MonoBehaviour {
         do { posZL = Random.Range(-1, 1); } 
         while (SnakeBody.Instance.bodyZ.Contains(posZL));
         {
-            posZL = Random.Range(-2, 2);
+            posZL = Random.Range(-1, 1);
         }
 
-        this.posX = (float)posXL;
-        this.posZ = (float)posZL;
+        this.posX = posXL * 0.5f;
+        this.posZ = posZL * 0.5f;
     }
 
     public void Update()

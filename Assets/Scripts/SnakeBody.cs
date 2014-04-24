@@ -6,12 +6,14 @@ public class SnakeBody : MonoBehaviour {
     public Food m_food;
     public static SnakeBody Instance;
     public List<Snake> snakeBody;
-    public List<int> bodyX;
-    public List<int> bodyZ;
+    public List<float> bodyX;
+    public List<float> bodyZ;
     public Snake snake;
     public int snakeDirection = 0;
     float m_moveRate = 0;
+    //float m_dirRate = 0;
     public bool isEat = false;
+    public const float snakeSize = 0.5f;
 
     void Awake()
     {
@@ -30,24 +32,15 @@ public class SnakeBody : MonoBehaviour {
         this.snakeBody.Insert(0, snake);
     }
 
-    //public void AddSnake()
-    //{
-    //    Vector3 position = m_food.m_transform.position;
-    //    Debug.Log(position.x);
-    //    Transform snakeT = (Transform)Instantiate(snake.transform, position, Quaternion.identity);
-    //    snakeT.transform.position = position;
-    //    Snake snakeL = snakeT.gameObject.GetComponent<Snake>();
-    //    AddBody(snakeL);
-    //}
-
+    //刷新snake的位置，防止food出现在snake的位置
     public void ChangePosition()
     {
         bodyX.Clear();
         bodyZ.Clear();
         for (int i = 0; i < snakeBody.Count; i++)
         {
-            bodyX.Add((int)snakeBody[i].posX);
-            bodyZ.Add((int)snakeBody[i].posZ);
+            bodyX.Add(snakeBody[i].posX);
+            bodyZ.Add(snakeBody[i].posZ);
         }
     }
     
@@ -106,25 +99,24 @@ public class SnakeBody : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
     void Update()
     {
         m_moveRate -= Time.deltaTime;
         this.GetDirection();
+
         if (m_moveRate <= 0)
         {
-            m_moveRate = 1.0f;
+            m_moveRate = 0.15f;
             m_food.CheckFood();
             if (this.isEat)
             {
                 m_food.AddSnake();
-                Move(snakeDirection);
+                this.GetDirection();
             }
             else
             {
                 this.Move(snakeDirection);
             }
-
         }
     }
 }
