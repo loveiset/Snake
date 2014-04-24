@@ -23,7 +23,7 @@ public class Snake : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag.CompareTo("Snake") == 0)
+        if (other.tag.CompareTo("Food") != 0)
         {
             Debug.Log("die");
         }

@@ -81,7 +81,6 @@ public class Food : MonoBehaviour {
         Transform foodT = (Transform)Instantiate(m_transform, this.position, Quaternion.identity);
         this.food = foodT.GetComponent<Food>().gameObject;
         m_transform.position = position;
-        //打印出来的位置和this.position的位置不一致
     }
 
     //得到随机位置生成food
