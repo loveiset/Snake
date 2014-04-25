@@ -3,12 +3,11 @@ using System.Collections;
 
 public class Wall : MonoBehaviour {
     GameObject wall;
-
     public Transform m_transform;
 
-    float left = Snake.snakeSize / 2 - Map.mapSizeX / 2;
-    float top = Map.mapSizeZ / 2 + Snake.snakeSize / 2;
-    float buttom = Snake.snakeSize / 2 - Map.mapSizeZ / 2;
+    float left = 0.0f;
+    float top = Map.mapSizeZ + Snake.snakeSize / 2;
+    float buttom = 0.0f;
     float right = Snake.snakeSize / 2 + Map.mapSizeX / 2;
 
     public void CreateSingleWall(float x, float z)

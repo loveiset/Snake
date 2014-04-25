@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Food : MonoBehaviour {
-    public float posX = 0;
-    public float posZ = 0;
+    public float posX = 0.0f;
+    public float posZ = 0.0f;
     public Vector3 position;
     public Transform m_transform;
     public Transform snake;
@@ -17,8 +18,7 @@ public class Food : MonoBehaviour {
     //在当前food位置生成一个新的snake
     public void AddSnake()
     {
-        Vector3 position = this.m_transform.position;
-        Debug.Log(this.m_transform.position);
+        position = this.m_transform.position;
         Transform snakeT = (Transform)Instantiate(snake.transform, position, Quaternion.identity);
         Snake snakeL = snakeT.GetComponent<Snake>();
         snakeL.directionToMove = SnakeBody.Instance.snakeDirection;
@@ -26,7 +26,6 @@ public class Food : MonoBehaviour {
         snakeL.posZ = position.z;
         SnakeBody.Instance.AddBody(snakeL);
         DestroyImmediate(food, true);
-        Debug.Log("here");
         this.CreateFood();
     }
 
@@ -76,33 +75,39 @@ public class Food : MonoBehaviour {
     //创建food
     public void CreateFood()
     {
-        this.FindPlace();
-        this.position = new Vector3(this.posX, 0, this.posZ);
-        Transform foodT = (Transform)Instantiate(m_transform, this.position, Quaternion.identity);
-        this.food = foodT.GetComponent<Food>().gameObject;
-        m_transform.position = position;
+        if (this.FindPlace())
+        {
+            this.position = new Vector3(this.posX, 0, this.posZ);
+            Transform foodT = (Transform)Instantiate(m_transform, this.position, Quaternion.identity);
+            this.food = foodT.GetComponent<Food>().gameObject;
+            m_transform.position = position;
+            for (int i = 0; i < SnakeBody.Instance.bodyX.Count; i++)
+            {
+                Debug.Log(SnakeBody.Instance.bodyX[i] + " " + SnakeBody.Instance.bodyZ[i]);
+            }
+            Debug.Log(position);
+        }
     }
 
     //得到随机位置生成food
-    public void FindPlace()
+    public bool FindPlace()
     {
-        //SnakeBody.Instance.ChangePosition();
+        SnakeBody.Instance.ChangePosition();
         int posXL = 0;
         int posZL = 0;
-        do { posXL = Random.Range(-1, 1); }
-        while (SnakeBody.Instance.bodyX.Contains(posXL));
-        {
-            posXL = Random.Range(-1, 1);
+        do
+        { //posXL = Random.Range(1 - Map.mapX / 2, Map.mapX / 2 + 1); }
+            posXL = Random.Range(-2, 3);
+            posZL = Random.Range(-2, 3);
         }
+        while (SnakeBody.Instance.bodyPosition.Contains(new Vector3((float)posXL,0.0f,(float)posZL)); .Contains(posXL * 0.5f) && SnakeBody.Instance.bodyZ.Contains(posZL * 0.5f));
 
-        do { posZL = Random.Range(-1, 1); } 
-        while (SnakeBody.Instance.bodyZ.Contains(posZL));
-        {
-            posZL = Random.Range(-1, 1);
-        }
+        this.posX = (float)posXL * 0.5f;
+        this.posZ = (float)posZL * 0.5f;
 
-        this.posX = posXL * 0.5f;
-        this.posZ = posZL * 0.5f;
+        Debug.Log(SnakeBody.Instance.bodyX.Contains(posXL * 0.5f));
+        Debug.Log(SnakeBody.Instance.bodyZ.Contains(posZL * 0.5f));
+        return true;
     }
 
     public void Update()

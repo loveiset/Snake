@@ -8,12 +8,13 @@ public class SnakeBody : MonoBehaviour {
     public List<Snake> snakeBody;
     public List<float> bodyX;
     public List<float> bodyZ;
+    public List<float[,]> bodyPosition;
     public Snake snake;
     public int snakeDirection = 0;
     float m_moveRate = 0;
-    //float m_dirRate = 0;
     public bool isEat = false;
     public const float snakeSize = 0.5f;
+    bool isMoved = true;
 
     void Awake()
     {
@@ -22,8 +23,9 @@ public class SnakeBody : MonoBehaviour {
 
 	void Start () 
     {
-        m_food.CreateFood();
         AddBody(snake);
+        ChangePosition();
+        m_food.CreateFood();
 	}
 
     //不用管这个
@@ -35,13 +37,12 @@ public class SnakeBody : MonoBehaviour {
     //刷新snake的位置，防止food出现在snake的位置
     public void ChangePosition()
     {
-        bodyX.Clear();
-        bodyZ.Clear();
+        bodyPosition.Clear();
         for (int i = 0; i < snakeBody.Count; i++)
         {
-            bodyX.Add(snakeBody[i].posX);
-            bodyZ.Add(snakeBody[i].posZ);
+            bodyPosition.Add(new float[]=);
         }
+        Debug.Log("haha" + bodyPosition[0].position);
     }
     
 
@@ -62,40 +63,51 @@ public class SnakeBody : MonoBehaviour {
     //检查方向键，得到下一步要移动的方向
     public void GetDirection()
     {
-        if (Input.GetKeyUp(KeyCode.UpArrow))
+        if (isMoved)
         {
-            if (snakeDirection == (int)Direction.DIRECTION.DOWN)
+            if (Input.GetKeyUp(KeyCode.UpArrow))
             {
-                return;
+                if (snakeDirection == (int)Direction.DIRECTION.DOWN)
+                {
+                    return;
+                }
+                this.snakeDirection = (int)Direction.DIRECTION.UP;
+                isMoved = false;
             }
-            this.snakeDirection = (int)Direction.DIRECTION.UP;
-        }
 
-        if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            if (snakeDirection == (int)Direction.DIRECTION.UP)
+            if (Input.GetKeyUp(KeyCode.DownArrow))
             {
-                return;
+                if (snakeDirection == (int)Direction.DIRECTION.UP)
+                {
+                    return;
+                }
+                this.snakeDirection = (int)Direction.DIRECTION.DOWN;
+                isMoved = false;
             }
-            this.snakeDirection = (int)Direction.DIRECTION.DOWN;
-        }
 
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
-                return;
+                if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
+                {
+                    return;
+                }
+                this.snakeDirection = (int)Direction.DIRECTION.LEFT;
+                isMoved = false;
             }
-            this.snakeDirection = (int)Direction.DIRECTION.LEFT;
-        }
 
-        if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            if (snakeDirection == (int)Direction.DIRECTION.LEFT)
+            if (Input.GetKeyUp(KeyCode.RightArrow))
             {
-                return;
+                if (snakeDirection == (int)Direction.DIRECTION.LEFT)
+                {
+                    return;
+                }
+                this.snakeDirection = (int)Direction.DIRECTION.RIGHT;
+                isMoved = false;
             }
-            this.snakeDirection = (int)Direction.DIRECTION.RIGHT;
+        }
+        else
+        {
+            return;
         }
     }
 	
@@ -116,6 +128,7 @@ public class SnakeBody : MonoBehaviour {
             else
             {
                 this.Move(snakeDirection);
+                isMoved = true;
             }
         }
     }
