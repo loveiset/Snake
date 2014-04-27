@@ -6,14 +6,10 @@ public class SnakeBody : MonoBehaviour {
     public Food m_food;
     public static SnakeBody Instance;
     public List<Snake> snakeBody;
-    public List<float> bodyX;
-    public List<float> bodyZ;
-    public List<float[,]> bodyPosition;
     public Snake snake;
     public int snakeDirection = 0;
     float m_moveRate = 0;
     public bool isEat = false;
-    public const float snakeSize = 0.5f;
     bool isMoved = true;
 
     void Awake()
@@ -24,7 +20,7 @@ public class SnakeBody : MonoBehaviour {
 	void Start () 
     {
         AddBody(snake);
-        ChangePosition();
+        //ChangePosition();
         m_food.CreateFood();
 	}
 
@@ -35,15 +31,15 @@ public class SnakeBody : MonoBehaviour {
     }
 
     //刷新snake的位置，防止food出现在snake的位置
-    public void ChangePosition()
-    {
-        bodyPosition.Clear();
-        for (int i = 0; i < snakeBody.Count; i++)
-        {
-            bodyPosition.Add(new float[]=);
-        }
-        Debug.Log("haha" + bodyPosition[0].position);
-    }
+    //public void ChangePosition()
+    //{
+    //    bodyPosition.Clear();
+    //    for (int i = 0; i < snakeBody.Count; i++)
+    //    {
+    //        bodyPosition.Add(new float[]=);
+    //    }
+    //    Debug.Log("haha" + bodyPosition[0].position);
+    //}
     
 
     //移动所有的snake,循环调用snake的调用函数
@@ -54,7 +50,7 @@ public class SnakeBody : MonoBehaviour {
         for(int i=0;i<snakeBody.Count;i++)
         {
             directBack = snakeBody[i].directionToMove;
-            snakeBody[i].SetDirection(direct);
+            snakeBody[i].directionToMove = direct;
             snakeBody[i].Move();
             direct = directBack;
         }
