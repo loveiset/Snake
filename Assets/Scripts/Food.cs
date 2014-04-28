@@ -28,6 +28,7 @@ public class Food : MonoBehaviour {
         SnakeBody.Instance.headNextPosX = this.posX;
         SnakeBody.Instance.headNextPosZ = this.posZ;
         SnakeBody.Instance.AddBody(snakeL);
+
         DestroyImmediate(food, true);
         this.CreateFood();
     }

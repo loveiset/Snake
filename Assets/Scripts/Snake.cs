@@ -5,6 +5,9 @@ public class Snake : MonoBehaviour {
     public Transform m_transform;
     int _directionToMove;
 
+    public AudioClip m_foodClip;
+    protected AudioSource m_audio;
+
     public int directionToMove
     {
         get
@@ -25,6 +28,8 @@ public class Snake : MonoBehaviour {
 	void Start () 
     {
         m_transform = this.transform;
+        m_audio = this.audio;
+        m_audio.PlayOneShot(m_foodClip);
 	}
 
     public void OnTriggerEnter(Collider other)

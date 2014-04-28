@@ -9,6 +9,8 @@ public class SnakeBody : MonoBehaviour {
     public Snake snake;
     public int snakeDirection = 0;
     float m_moveRate = 0;
+    public AudioClip m_moveClip;
+    protected AudioSource m_audio;
     
     //定义蛇头下一步将会遇见的物体，0表示正常运行，1表示将会遇见食物，2表示将会结束游戏（碰到自身，墙壁或者其它结束游戏的物体）
     public int isEat = 0;
@@ -25,6 +27,7 @@ public class SnakeBody : MonoBehaviour {
 	void Start () 
     {
         AddBody(snake);
+        m_audio = this.audio;
         //ChangePosition();
         m_food.CreateFood();
         Map.Instance.snakeMap[Map.TranslateToDic(snake.posX, snake.posZ)] = false;
@@ -53,6 +56,7 @@ public class SnakeBody : MonoBehaviour {
     //移动所有的snake,循环调用snake的调用函数
     public void Move(int direction)
     {
+        m_audio.PlayOneShot(m_moveClip);
         int direct = direction;
         int directBack=0;
         for(int i=0;i<snakeBody.Count;i++)
