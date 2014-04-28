@@ -9,8 +9,13 @@ public class SnakeBody : MonoBehaviour {
     public Snake snake;
     public int snakeDirection = 0;
     float m_moveRate = 0;
-    public bool isEat = false;
+    
+    //定义蛇头下一步将会遇见的物体，0表示正常运行，1表示将会遇见食物，2表示将会结束游戏（碰到自身，墙壁或者其它结束游戏的物体）
+    public int isEat = 0;
     bool isMoved = true;
+
+    public int headNextPosX = 0;
+    public int headNextPosZ = 0;
 
     void Awake()
     {
@@ -22,6 +27,9 @@ public class SnakeBody : MonoBehaviour {
         AddBody(snake);
         //ChangePosition();
         m_food.CreateFood();
+        Map.Instance.snakeMap[Map.TranslateToDic(snake.posX, snake.posZ)] = false;
+        headNextPosX = snake.posX;
+        headNextPosZ = snake.posZ;
 	}
 
     //不用管这个
@@ -53,6 +61,26 @@ public class SnakeBody : MonoBehaviour {
             snakeBody[i].directionToMove = direct;
             snakeBody[i].Move();
             direct = directBack;
+        }
+    }
+
+    public void GetNextHeadPosition()
+    {
+        if (snakeDirection == (int)Direction.DIRECTION.UP)
+        {
+            this.headNextPosZ += 1;
+        }
+        else if (snakeDirection == (int)Direction.DIRECTION.DOWN)
+        {
+            this.headNextPosZ -= 1;
+        }
+        else if (snakeDirection == (int)Direction.DIRECTION.LEFT)
+        {
+            this.headNextPosX -= 1;
+        }
+        else if (snakeDirection == (int)Direction.DIRECTION.RIGHT)
+        {
+            this.headNextPosX += 1;
         }
     }
 
@@ -106,6 +134,14 @@ public class SnakeBody : MonoBehaviour {
             return;
         }
     }
+
+    void CheckPosition()
+    {
+        if (headNextPosX < 0 || headNextPosX >= Map.mapX || headNextPosZ < 0 || headNextPosZ >= Map.mapZ)
+        {
+            isEat = 2;
+        }
+    }
 	
     void Update()
     {
@@ -114,9 +150,16 @@ public class SnakeBody : MonoBehaviour {
 
         if (m_moveRate <= 0)
         {
-            m_moveRate = 0.15f;
+            m_moveRate = 0.12f;
+            GetNextHeadPosition();
+            CheckPosition();
+            if (isEat == 2)
+            {
+                GameManager.Instance.isDead = true;
+                return;
+            }
             m_food.CheckFood();
-            if (this.isEat)
+            if (isEat==1)
             {
                 m_food.AddSnake();
                 this.GetDirection();

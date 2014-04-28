@@ -25,6 +25,8 @@ public class Food : MonoBehaviour {
         snakeL.posX = this.posX;
         snakeL.posZ = this.posZ;
         Map.Instance.snakeMap[Map.TranslateToDic(snakeL.posX, snakeL.posZ)] = false;
+        SnakeBody.Instance.headNextPosX = this.posX;
+        SnakeBody.Instance.headNextPosZ = this.posZ;
         SnakeBody.Instance.AddBody(snakeL);
         DestroyImmediate(food, true);
         this.CreateFood();
@@ -33,30 +35,38 @@ public class Food : MonoBehaviour {
     //检查food和snake是否满足相撞的条件
     public void CheckFood()
     {
-        Snake head = SnakeBody.Instance.snakeBody[0];
-        if (this.posX - head.posX == 1 && this.posZ == head.posZ
-            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.RIGHT)
+        //Snake head = SnakeBody.Instance.snakeBody[0];
+        //if (this.posX - head.posX == 1 && this.posZ == head.posZ
+        //    && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.RIGHT)
+        //{
+        //    SnakeBody.Instance.isEat = 1;
+        //}
+        //else if (head.posX - this.posX == 1 && this.posZ == head.posZ
+        //    && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.LEFT)
+        //{
+        //    SnakeBody.Instance.isEat = 1;
+        //}
+        //else if (this.posZ - head.posZ == 1 && this.posX == head.posX
+        //    && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.UP)
+        //{
+        //    SnakeBody.Instance.isEat = 1;
+        //}
+        //else if (head.posZ - this.posZ == 1 && this.posX == head.posX
+        //    && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.DOWN)
+        //{
+        //    SnakeBody.Instance.isEat = 1;
+        //}
+        //else
+        //{
+        //    SnakeBody.Instance.isEat = 0;
+        //}
+        if (this.posX == SnakeBody.Instance.headNextPosX && this.posZ == SnakeBody.Instance.headNextPosZ)
         {
-            SnakeBody.Instance.isEat = true;
-        }
-        else if (head.posX - this.posX == 1 && this.posZ == head.posZ
-            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.LEFT)
-        {
-            SnakeBody.Instance.isEat = true;
-        }
-        else if (this.posZ - head.posZ == 1 && this.posX == head.posX
-            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.UP)
-        {
-            SnakeBody.Instance.isEat = true;
-        }
-        else if (head.posZ - this.posZ == 1 && this.posX == head.posX
-            && SnakeBody.Instance.snakeDirection == (int)Direction.DIRECTION.DOWN)
-        {
-            SnakeBody.Instance.isEat = true;
+            SnakeBody.Instance.isEat = 1;
         }
         else
         {
-            SnakeBody.Instance.isEat = false;
+            SnakeBody.Instance.isEat = 0;
         }
     }
 

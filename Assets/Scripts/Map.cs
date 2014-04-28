@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Map : MonoBehaviour {
     //地图都从0开始
     public static Map Instance;
-    public Wall m_wall;
+    //public Wall m_wall;
     public const int mapX = 16;
     public const int mapZ = 16;
     public static float mapSizeX = mapX * Snake.snakeSize;
@@ -53,7 +53,7 @@ public class Map : MonoBehaviour {
 
     void Start()
     {
-        m_wall.CreateWall();
+        //m_wall.CreateWall();
         InitMap();
     }
 
